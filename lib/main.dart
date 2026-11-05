@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taskmanager/pages/auth.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: "https://fnxialzapmjbdzowuomh.supabase.co",
+    publishableKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZueGlhbHphcG1qYmR6b3d1b21oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MjgyMjYsImV4cCI6MjEwNTIwNDIyNn0.VesAUjWv3-vlvapnTjPkIKs603UhNRfTWauAStcc9Lg",
+  );
+
+  runApp(MyApp());
+}
+
+// It's handy to then extract the Supabase client in a variable for later uses
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,13 +24,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
-      theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
+        title: _title,
+        theme: ThemeData(
+          // useMaterial3: false,
+          primarySwatch: Colors.blue,
+        ),
+        home: AuthPage());
   }
 }
 
