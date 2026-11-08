@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskmanager/pages/profile.dart';
+import 'package:taskmanager/pages/workspaces.dart' show WorkspacesPage;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   // قائمة الصفحات (حالياً تستخدم صفحات مؤقتة Placeholder)
   final List<Widget> _pages = const [
     HomePage(),
-    TeamWorkPage(),
+    WorkspacesPage(),
     ProfilePage(),
   ];
 
@@ -80,21 +81,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-class TeamWorkPage extends StatelessWidget {
-  const TeamWorkPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Team Work Page',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
-
-

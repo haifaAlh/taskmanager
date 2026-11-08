@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:taskmanager/pages/auth.dart'; // تأكدي من مسار الملف لديك
+import 'package:taskmanager/pages/auth.dart';
+// تأكدي من مسار الملف لديك
+import 'package:taskmanager/widgets/profilecard.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -233,202 +235,13 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 24),
 
               // Profile Card Component
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(15, 23, 42, 0.04),
-                      blurRadius: 8,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    // Avatar Image with click handler
-                    GestureDetector(
-                      onTap: _showAvatarPicker,
-                      child: Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: primaryColor, width: 2),
-                            ),
-                            child: CircleAvatar(
-                              radius: 42,
-                              backgroundColor: const Color(0xFFE5EEFF),
-                              backgroundImage: _avatarPath != null
-                                  ? NetworkImage(_avatarPath!)
-                                  : null,
-                              child: _avatarPath == null
-                                  ? const Icon(Icons.person,
-                                      size: 40, color: primaryColor)
-                                  : null,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF10B981),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // Nickname
-                    Text(
-                      _nickname ?? 'User Name',
-                      style: const TextStyle(
-                        fontFamily: 'Plus Jakarta Sans',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: textColor,
-                      ),
-                    ),
-
-                    const SizedBox(height: 4),
-
-                    // Username
-                    Text(
-                      _username ?? '@username',
-                      style: const TextStyle(
-                        fontFamily: 'Plus Jakarta Sans',
-                        fontSize: 14,
-                        color: Color(0xFF64748B),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Commitment Score Card
-                    // Commitment Score Card
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: scoreColor.withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: scoreColor.withOpacity(0.15)),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.shield_outlined,
-                                        color: scoreColor, size: 20),
-                                    const SizedBox(width: 8),
-                                    const Flexible(
-                                      child: Text(
-                                        'Commitment Score',
-                                        style: TextStyle(
-                                          fontFamily: 'Plus Jakarta Sans',
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                          color: textColor,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: scoreColor,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  '$_progressBar%', // <-- هنا يعرض النسبة القادمة من المتغير
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 12),
-
-                          // Dynamic Progress Bar
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: LinearProgressIndicator(
-                              value: _progressBar /
-                                  100.0, // <-- هنا يتحرك المؤشر بناءً على القيمة
-                              minHeight: 8,
-                              backgroundColor: Colors.black.withOpacity(0.05),
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(scoreColor),
-                            ),
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.check_circle_outline,
-                                        color: scoreColor, size: 16),
-                                    const SizedBox(width: 4),
-                                    Expanded(
-                                      child: Text(
-                                        '$_progressBar% On-Time Completion', // <-- هنا النص المتغير
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: scoreColor,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '$_numOfTasks tasks', // <-- هنا يعرض عدد التاسكات القادم من المتغير
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF64748B),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              ProfileCard(
+                nickname: _nickname,
+                username: _username,
+                avatarPath: _avatarPath,
+                progressBar: _progressBar,
+                numOfTasks: _numOfTasks,
+                onAvatarTap: _showAvatarPicker,
               ),
 
               const SizedBox(height: 24),
