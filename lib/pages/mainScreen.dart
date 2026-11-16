@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:taskmanager/pages/home_page.dart';
 import 'package:taskmanager/pages/profile.dart';
 import 'package:taskmanager/pages/workspaces.dart' show WorkspacesPage;
+import 'package:taskmanager/pages/notifications_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -11,13 +13,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-
-  // قائمة الصفحات (حالياً تستخدم صفحات مؤقتة Placeholder)
-  final List<Widget> _pages = const [
-    HomePage(),
-    WorkspacesPage(),
-    ProfilePage(),
-  ];
+  bool _showNotifications = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +22,30 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: _pages,
+        children: [
+          Stack(
+            fit: StackFit.expand,
+            children: [
+              HomePage(
+                onOpenNotifications: () {
+                  setState(() {
+                    _showNotifications = true;
+                  });
+                },
+              ),
+              if (_showNotifications) const NotificationsPage(),
+            ],
+          ),
+          const WorkspacesPage(),
+          const ProfilePage(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
+            _showNotifications = false;
           });
         },
         selectedItemColor: primaryColor,
@@ -48,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.group_outlined),
             activeIcon: Icon(Icons.group),
-            label: 'Team Work',
+            label: 'Workspaces',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
@@ -56,27 +69,6 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Profile',
           ),
         ],
-      ),
-    );
-  }
-}
-
-// =============================================================================
-// صفحات مؤقتة (Placeholders)
-// يمكنك استبدالها واستيراد الملفات الحقيقية (import) عندما تقومين بإنشائها لاحقاً
-// =============================================================================
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Home Page',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
       ),
     );
   }
