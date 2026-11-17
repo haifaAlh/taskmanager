@@ -7,6 +7,7 @@ import 'package:taskmanager/widgets/groupcard.dart' show GroupCard;
 import 'package:taskmanager/widgets/search_list_card.dart';
 import 'package:taskmanager/widgets/profilecard.dart';
 import 'package:taskmanager/widgets/create_workspace_dialog.dart';
+import 'package:taskmanager/pages/group_page.dart';
 
 class WorkspacesPage extends StatefulWidget {
   const WorkspacesPage({super.key});
@@ -562,10 +563,19 @@ class _WorkspacesPageState extends State<WorkspacesPage> {
         ),
         itemCount: _userGroups.length,
         itemBuilder: (context, index) {
+          final groupData = _userGroups[index];
+
           return GroupCard(
-            groupData: _userGroups[index],
+            groupData: groupData,
             onTap: () {
-              // Navigate to workspace details.
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GroupPage(
+                    groupData: groupData,
+                  ),
+                ),
+              );
             },
           );
         },

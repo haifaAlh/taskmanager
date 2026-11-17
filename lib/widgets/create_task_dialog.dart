@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CreateTaskDialog extends StatefulWidget {
-  const CreateTaskDialog({super.key});
+  final String? groupId;
+  final String? userId;
+  const CreateTaskDialog({
+    super.key,
+    this.groupId,
+    this.userId,
+  });
 
   @override
   State<CreateTaskDialog> createState() => _CreateTaskDialogState();
@@ -135,6 +141,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
       );
       return;
     }
+    final assignedUserId = widget.userId ?? user.id;
 
     final deadline = DateTime(
       selectedDate!.year,
@@ -150,7 +157,8 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
 
     try {
       await supabase.from('tasks').insert({
-        'user_id': user.id,
+        'user_id': assignedUserId,
+        'group_id': widget.groupId,
         'title': _titleController.text.trim(),
         'deadline': deadline.toUtc().toIso8601String(),
         'priority_level': selectedPriority,
